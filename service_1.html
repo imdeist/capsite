@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Технические работы</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231d1d1f'/><circle cx='50' cy='50' r='20' fill='white'/></svg>">
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container { text-align: center; z-index: 1; width: 400px; }
+
+        h1 {
+            font-size: 2.5em; /* Текст крупный, как в премиум-варианте */
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+            animation: fadeIn 1.2s ease-out forwards;
+        }
+
+        p {
+            font-size: 1.2em; /* Размер текста из крутого варианта */
+            color: #888;
+            margin-bottom: 40px;
+            animation: fadeIn 1.2s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        /* Контейнер прогресс-бара */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            animation: fadeIn 1.5s ease-out 1s forwards;
+            opacity: 0;
+        }
+
+        /* Полоса прогресса */
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #fff;
+            border-radius: 3px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            /* Увеличили время до 20 секунд для "тяжелого" эффекта */
+            animation: load 20s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+        }
+
+        .glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #007aff, transparent 70%);
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: pulseGlow 4s infinite ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes load {
+            0% { width: 0%; }
+            100% { width: 85%; } 
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.1); opacity: 0.25; }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow"></div>
+    <div class="container">
+        <h1>Сайт находится на обслуживании</h1>
+        <p>Мы скоро вернемся. Спасибо за ожидание!</p>
+        
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+</body>
+</html>
