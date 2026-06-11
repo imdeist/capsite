@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вкусный Дом | Энциклопедия Крабового Салата</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦀</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Lora:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+    <style>
+        /* === ПЕРЕМЕННЫЕ И БАЗОВЫЕ НАСТРОЙКИ === */
+        :root {
+            --bg-color: #f4f9f9;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --accent-coral: #ff6b6b;
+            --accent-coral-hover: #e55050;
+            --accent-blue: #4facfe;
+            --card-bg: #ffffff;
+            --border-color: #e1e8ed;
+            --shadow-sm: 0 5px 15px rgba(79, 172, 254, 0.08);
+            --shadow-lg: 0 20px 40px rgba(79, 172, 254, 0.15);
+            --radius-lg: 30px;
+            --radius-md: 16px;
+            --radius-sm: 8px;
+            --transition: all 0.3s ease-in-out;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.8;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Lora', serif;
+            color: #1a252f;
+            margin-bottom: 1rem;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; border-radius: var(--radius-md); object-fit: cover; }
+
+        /* === НАВИГАЦИЯ === */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-coral);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* === ГЛАВНЫЙ ЭКРАН (HERO) === */
+        .hero {
+            margin-top: 70px;
+            padding: 100px 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(79,172,254,0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .hero-text { z-index: 1; position: relative; }
+        
+        .hero-text h1 {
+            font-size: 3.8rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #1a252f;
+        }
+
+        .hero-text p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 35px;
+            max-width: 520px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent-coral);
+            color: white;
+            padding: 18px 36px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--accent-coral-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .hero-image {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-image img {
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            height: 550px;
+            width: 100%;
+        }
+
+        .badge {
+            position: absolute;
+            bottom: 40px;
+            left: -40px;
+            background: white;
+            padding: 20px 25px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* === ФИЛОСОФИЯ И БАЗА === */
+        .section-title {
+            text-align: center;
+            margin: 100px 0 50px;
+        }
+
+        .section-title h2 { font-size: 2.8rem; }
+        .section-title p { color: var(--text-muted); max-width: 650px; margin: 0 auto; font-size: 1.1rem; }
+
+        .philosophy {
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 35px;
+        }
+
+        .phil-card {
+            background: var(--card-bg);
+            padding: 45px 30px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .phil-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-blue);
+        }
+
+        .phil-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+        }
+
+        /* === БОЛЬШАЯ КНИГА РЕЦЕПТОВ === */
+        .recipes-container {
+            padding: 60px 5%;
+            background: #ffffff;
+            margin-top: 100px;
+            border-radius: 50px 50px 0 0;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.02);
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+            box-shadow: 0 8px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .recipe-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .recipe-img {
+            height: 260px;
+            position: relative;
+        }
+
+        .recipe-img img {
+            border-radius: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        .recipe-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.95);
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--accent-coral);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .recipe-content {
+            padding: 35px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .recipe-meta {
+            display: flex;
+            gap: 25px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .recipe-content h3 { font-size: 1.6rem; margin-bottom: 15px; color: #1a252f; }
+        .recipe-content p { color: var(--text-muted); margin-bottom: 25px; flex-grow: 1; }
+
+        .ingredients-list {
+            background: #f8fbff;
+            padding: 25px;
+            border-radius: var(--radius-md);
+            margin-bottom: 25px;
+            border: 1px dashed #c5d8e8;
+        }
+
+        .ingredients-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(79, 172, 254, 0.1);
+            padding-bottom: 6px;
+        }
+        .ingredients-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        .steps-box { margin-bottom: 20px; }
+        .step {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+        .step-num {
+            background: var(--accent-blue);
+            color: white;
+            min-width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(79, 172, 254, 0.4);
+        }
+
+        /* === БЛОК СПОРОВ (HOLY WARS) === */
+        .holy-wars {
+            padding: 100px 5%;
+            background: linear-gradient(135deg, #1a252f 0%, #2c3e50 100%);
+            color: white;
+        }
+
+        .holy-wars h2 { color: #ffffff; }
+        .holy-wars .section-title p { color: #a1b0be; }
+
+        .war-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .war-card {
+            background: rgba(255,255,255,0.03);
+            padding: 45px;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .war-card h3 { color: var(--accent-coral); font-size: 1.7rem; margin-bottom: 20px; }
+        .war-card p { color: #d1d8e0; margin-bottom: 15px; }
+        .war-card b { color: #ffffff; }
+
+        /* === КАЛЬКУЛЯТОР ПОРЦИЙ === */
+        .calc-section {
+            background: #ffffff;
+            padding: 80px 5%;
+            margin: 80px 5%;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .range-slider {
+            width: 100%;
+            max-width: 500px;
+            margin: 30px auto;
+            accent-color: var(--accent-coral);
+        }
+        
+        #calc-result {
+            display: flex; 
+            justify-content: center; 
+            gap: 20px; 
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .calc-item {
+            background: #f4f9f9;
+            padding: 20px 30px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            color: var(--text-main);
+            border: 1px solid #e1e8ed;
+            min-width: 150px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .calc-item span {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            margin-top: 5px;
+        }
+
+        /* === ПОДВАЛ === */
+        footer {
+            background: #111820;
+            color: #7f8c8d;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        footer h2 { color: white; margin-bottom: 20px; font-family: 'Lora', serif; }
+
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .hero, .philosophy, .war-grid { grid-template-columns: 1fr; }
+            .hero-text h1 { font-size: 3rem; }
+            .hero-image img { height: 400px; }
+            .badge { left: 20px; bottom: 20px; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .filter-bar { flex-direction: column; padding: 0 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <span>🦀</span> Вкусный Дом
+        </div>
+        <nav class="nav-links">
+            <a href="#philosophy">Правила</a>
+            <a href="#recipes">Рецепты</a>
+            <a href="#calculator">Калькулятор</a>
+            <a href="#holy-wars">Мифы</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Идеальный крабовый салат.<br>Легкость в каждой ложке.</h1>
+            <p>От классики с кукурузой до ресторанных шедевров с настоящим камчатским крабом. Узнайте секреты выбора ингредиентов и найдите свой любимый рецепт.</p>
+            <button class="btn" onclick="document.getElementById('recipes').scrollIntoView({behavior: 'smooth'})">Открыть рецепты</button>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1574782091410-02abdfeb3bc5?auto=format&fit=crop&w=1000&q=80" alt="Крабовый салат">
+            <div class="badge">
+                <span style="font-size: 2.2rem;">🌊</span>
+                <div>
+                    <h4 style="margin:0; font-family:'Montserrat', sans-serif;">Морская свежесть</h4>
+                    <p style="margin:0; font-size:0.9rem; color:var(--text-muted);">Без тяжести и переедания</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="philosophy">
+        <div class="section-title">
+            <h2>Три кита крабового салата</h2>
+            <p>Этот салат кажется простейшим, но именно в деталях кроется разница между «съедобно» и «восхитительно».</p>
+        </div>
+        <div class="philosophy">
+            <div class="phil-card">
+                <div class="phil-icon">🥢</div>
+                <h3>Выбор сурими</h3>
+                <p>Крабовые палочки — это рыбный фарш. Читайте состав: на первом месте должно быть слово «сурими», а не крахмал или соя. Палочки должны быть упругими, а не разваливаться в кашу при нарезке.</p>
+            </div>
+            <div class="phil-card">
+                <div class="phil-icon">🌽</div>
+                <h3>Секрет кукурузы</h3>
+                <p>Кукуруза отвечает за сладость и текстурный хруст. Выбирайте мозговые сорта (на банке часто пишут «сладкая» или «молочная»). Обязательно слейте весь маринад и просушите зерна, иначе салат «поплывет».</p>
+            </div>
+            <div class="phil-card">
+                <div class="phil-icon">🥚</div>
+                <h3>Нежность яиц</h3>
+                <p>Яйца — связующее звено. Их нельзя переваривать (иначе желток посинеет и даст запах серы). Варите ровно 9 минут после закипания, затем сразу в ледяную воду. Желток станет идеальным кремом для соуса.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="calculator" class="calc-section">
+        <h2>Калькулятор закупки (Классика без риса)</h2>
+        <p>Укажите количество гостей, чтобы узнать точные пропорции продуктов для похода в магазин.</p>
+        <div style="margin: 40px 0;">
+            <label for="guests" style="font-weight: 800; font-size: 1.3rem;">Количество порций: <span id="guest-count" style="color: var(--accent-coral);">4</span></label><br>
+            <input type="range" id="guests" class="range-slider" min="1" max="25" value="4" oninput="calculateIngredients(this.value)">
+        </div>
+        
+        <div id="calc-result">
+            </div>
+    </section>
+
+    <section id="recipes" class="recipes-container">
+        <div class="section-title">
+            <h2>Коллекция Рецептов</h2>
+            <p>От ностальгической советской классики до современных ЗОЖ-вариаций и ресторанных подач.</p>
+        </div>
+
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filterSelection('all')">Все рецепты</button>
+            <button class="filter-btn" onclick="filterSelection('classic')">Классика</button>
+            <button class="filter-btn" onclick="filterSelection('rice')">С рисом (Сытные)</button>
+            <button class="filter-btn" onclick="filterSelection('premium')">Настоящий краб</button>
+            <button class="filter-btn" onclick="filterSelection('diet')">Легкие / Фитнес</button>
+        </div>
+
+        <div class="recipe-grid" id="recipe-grid">
+            </div>
+    </section>
+
+    <section id="holy-wars" class="holy-wars">
+        <div class="section-title">
+            <h2>Кулинарные мифы и споры</h2>
+            <p>Разбираем самые горячие темы, из-за которых хозяйки ломают копья на кулинарных форумах.</p>
+        </div>
+        <div class="war-grid">
+            <div class="war-card">
+                <h3>🍚 Нужен ли в салате рис?</h3>
+                <p><b>Суть конфликта:</b> Одни считают рис «наполнителем для бедных», который делает салат тяжелым как кирпич. Другие не мыслят салат без сытности, которую дает рис.</p>
+                <p><b>Вердикт:</b> Рис исторически добавляли для объема в эпоху дефицита. Если вы делаете салат на праздничный стол с обилием других блюд — убирайте рис, оставьте только белок и овощи. Если это самостоятельный ужин — рис отлично сбалансирует вкус.</p>
+            </div>
+            <div class="war-card">
+                <h3>🥒 Свежий огурец: враг или друг?</h3>
+                <p><b>Суть конфликта:</b> Свежий огурец дает невероятный весенний аромат, но через два часа превращает салат в суп из майонеза и воды.</p>
+                <p><b>Вердикт:</b> Добавлять свежий огурец МОЖНО и НУЖНО, но есть правило: очистите его от кожуры, разрежьте вдоль и чайной ложкой выскребите водянистую сердцевину с семечками. Нарезайте только плотную часть огурца. Так хруст останется, а лужи в тарелке не будет.</p>
+            </div>
+            <div class="war-card">
+                <h3>🍎 Яблоко и Капуста?</h3>
+                <p><b>Суть конфликта:</b> Попытки "освежить" классический рецепт добавлением пекинской капусты или кислого яблока.</p>
+                <p><b>Вердикт:</b> Пекинская капуста — отличная альтернатива рису, она делает салат объемным, но легким. Яблоко (строго зеленое и кислое, как Гренни Смит) шикарно оттеняет сладость кукурузы. Главное — нарезать всё очень мелким кубиком, чтобы текстуры слились.</p>
+            </div>
+            <div class="war-card">
+                <h3>🦀 "Там нет краба, это обман!"</h3>
+                <p><b>Суть конфликта:</b> Снобизм по поводу использования крабовых палочек (сурими) вместо настоящего камчатского краба.</p>
+                <p><b>Вердикт:</b> "Крабовый салат" с сурими — это отдельное, самостоятельное блюдо со своим культурным кодом. Сурими (промытый рыбный белок) изобрели в Японии 900 лет назад. Это не "химия", а отличный диетический продукт, если выбирать качественный бренд.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <h2>Вкусный Дом 🌊</h2>
+        <p>Создано с любовью для идеальных праздников и легких ужинов.</p>
+        <p style="margin-top: 25px; font-size: 0.85rem; opacity: 0.5;">© 2026 Кулинарная энциклопедия. Все права защищены. Если ваш салат съели до прихода гостей — значит, рецепт сработал идеально.</p>
+    </footer>
+
+    <script>
+        // Обширная база данных рецептов
+        const recipesData = [
+            {
+                title: "Нежная Классика (Без риса)",
+                category: "classic",
+                tag: "Тот самый вкус",
+                image: "https://images.unsplash.com/photo-1615486171448-4af4bd16ebcb?auto=format&fit=crop&w=600&q=80",
+                desc: "Самый любимый, легкий и нежный вариант. Отсутствие риса делает его воздушным, а кукуруза дает приятную сладкую нотку.",
+                time: "20 мин",
+                difficulty: "Легко",
+                ingredients: [
+                    {name: "Крабовые палочки (Сурими)", value: "250 г"},
+                    {name: "Кукуруза сладкая", value: "1 банка"},
+                    {name: "Яйца куриные", value: "4 шт"},
+                    {name: "Свежий огурец (без семян)", value: "1 крупный"},
+                    {name: "Майонез", value: "3 ст. л."},
+                    {name: "Соль, белый перец", value: "По вкусу"}
+                ],
+                steps: [
+                    "Яйца отварите вкрутую (9 минут), охладите и нарежьте средним кубиком.",
+                    "Крабовые палочки очистите от пленок и нарежьте кубиком, соразмерным кукурузному зерну.",
+                    "Огурец очистите от кожицы, разрежьте пополам, ложкой удалите водянистую сердцевину. Нарежьте плотную часть.",
+                    "С кукурузы слейте всю жидкость. Можно дополнительно просушить её на бумажном полотенце.",
+                    "Смешайте все ингредиенты в салатнике.",
+                    "Заправьте майонезом непосредственно перед подачей на стол."
+                ]
+            },
+            {
+                title: "Сытный (С рисом и луком)",
+                category: "rice",
+                tag: "Для большой семьи",
+                image: "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80",
+                desc: "Вариант, который может заменить полноценный ужин. Рис впитывает соки и майонез, делая текстуру очень кремовой и насыщенной.",
+                time: "35 мин",
+                difficulty: "Легко",
+                ingredients: [
+                    {name: "Крабовые палочки", value: "400 г"},
+                    {name: "Рис (длиннозерный)", value: "100 г (сухого)"},
+                    {name: "Кукуруза", value: "1.5 банки"},
+                    {name: "Яйца", value: "5 шт"},
+                    {name: "Лук репчатый", value: "1/2 шт"},
+                    {name: "Майонез", value: "200 г"}
+                ],
+                steps: [
+                    "Рис тщательно промойте (до прозрачной воды) и отварите до рассыпчатого состояния. Обязательно полностью остудите!",
+                    "Лук нарежьте максимально мелко и ошпарьте кипятком на 1 минуту, чтобы убрать горечь.",
+                    "Яйца и крабовые палочки нарежьте кубиком.",
+                    "Соедините остывший рис, кукурузу, яйца, палочки и лук.",
+                    "Тщательно перемешайте с майонезом. Этому салату нужно настояться в холодильнике около часа."
+                ]
+            },
+            {
+                title: "Королевский Камчатский",
+                category: "premium",
+                tag: "Ресторанный",
+                image: "https://images.unsplash.com/photo-1559742811-822873691df8?auto=format&fit=crop&w=600&q=80",
+                desc: "Премиум-версия с настоящим мясом краба. Совершенно другая текстура и вкус океана. Заправляется легким соусом.",
+                time: "30 мин",
+                difficulty: "Средне",
+                ingredients: [
+                    {name: "Мясо краба (фаланги или роза)", value: "300 г"},
+                    {name: "Авокадо Хасс", value: "2 шт"},
+                    {name: "Огурец свежий", value: "2 шт"},
+                    {name: "Яйца перепелиные", value: "8 шт"},
+                    {name: "Икра красная", value: "50 г"},
+                    {name: "Майонез домашний + Йогурт", value: "По 2 ст. л."}
+                ],
+                steps: [
+                    "Мясо краба аккуратно разберите на волокна, удалив хитиновые пластинки.",
+                    "Авокадо очистите, нарежьте кубиком и сбрызните лимонным соком от потемнения.",
+                    "Перепелиные яйца отварите (4 минуты), разрежьте пополам.",
+                    "Огурец очистите от кожицы и нарежьте соломкой.",
+                    "Смешайте домашний майонез с греческим йогуртом для облегчения соуса.",
+                    "Аккуратно соедините краба, авокадо и огурец с соусом. Украсьте половинками яиц и красной икрой."
+                ]
+            },
+            {
+                title: "Фитнес-Краб с Пекинской капустой",
+                category: "diet",
+                tag: "Мало калорий",
+                image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80",
+                desc: "Много хруста, много зелени, максимум пользы. Идеальный белковый ужин без тяжелого майонеза и крахмала.",
+                time: "15 мин",
+                difficulty: "Очень легко",
+                ingredients: [
+                    {name: "Крабовые палочки (чистое сурими)", value: "200 г"},
+                    {name: "Пекинская капуста", value: "300 г"},
+                    {name: "Кукуруза без сахара", value: "150 г"},
+                    {name: "Яйца (только белки)", value: "4 шт"},
+                    {name: "Укроп", value: "1 пучок"},
+                    {name: "Йогурт греческий (2%)", value: "4 ст. л."},
+                    {name: "Горчица дижонская", value: "1 ч. л."}
+                ],
+                steps: [
+                    "Пекинскую капусту нашинкуйте. Используйте преимущественно светлую, хрустящую часть листьев.",
+                    "Крабовые палочки нарежьте тонкой соломкой.",
+                    "Отварите яйца, удалите желтки (для снижения жирности), белки нарежьте соломкой.",
+                    "Мелко порубите укроп.",
+                    "Для заправки: смешайте греческий йогурт, горчицу, немного соли и каплю лимонного сока.",
+                    "Смешайте капусту, крабовые палочки, белки, кукурузу и зелень. Заправьте йогуртовым соусом."
+                ]
+            },
+            {
+                title: "Морской Коктейль (С кальмаром)",
+                category: "premium",
+                tag: "Белковый взрыв",
+                image: "https://images.unsplash.com/photo-1485921325833-c519f76c4927?auto=format&fit=crop&w=600&q=80",
+                desc: "Роскошный вариант, где крабовые палочки дополняются нежным кальмаром и креветками. Очень насыщенный морской вкус.",
+                time: "45 мин",
+                difficulty: "Средне",
+                ingredients: [
+                    {name: "Крабовые палочки", value: "150 г"},
+                    {name: "Кальмары (тушки)", value: "300 г"},
+                    {name: "Креветки коктейльные", value: "150 г"},
+                    {name: "Яйца куриные", value: "3 шт"},
+                    {name: "Огурец свежий", value: "1 шт"},
+                    {name: "Сметана + Майонез", value: "Для заправки"}
+                ],
+                steps: [
+                    "Самое важное — сварить кальмара. Опустите очищенные тушки в кипяток ровно на 2 минуты, затем сразу в холодную воду.",
+                    "Нарежьте остывшего кальмара тонкой соломкой.",
+                    "Креветки отварите (если сырые) или разморозьте. Если крупные — разрежьте пополам.",
+                    "Крабовые палочки, огурец и яйца нарежьте соломкой (в этом салате соломка предпочтительнее кубика).",
+                    "Соедините все морепродукты, яйца и огурец.",
+                    "Заправьте смесью сметаны и майонеза (50/50), добавьте белый молотый перец."
+                ]
+            },
+            {
+                title: "Пикантный с сыром и чесноком",
+                category: "classic",
+                tag: "Закусочный",
+                image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80",
+                desc: "Острая и пикантная интерпретация. Сыр дает сливочность, а чеснок — яркость. Отлично подходит в качестве начинки для тарталеток.",
+                time: "20 мин",
+                difficulty: "Легко",
+                ingredients: [
+                    {name: "Крабовые палочки", value: "250 г"},
+                    {name: "Сыр полутвердый (Гауда/Тильзитер)", value: "150 г"},
+                    {name: "Яйца", value: "3 шт"},
+                    {name: "Чеснок", value: "2 зубчика"},
+                    {name: "Кукуруза", value: "100 г"},
+                    {name: "Майонез", value: "3 ст. л."}
+                ],
+                steps: [
+                    "Сыр натрите на мелкой терке — так салат будет более воздушным.",
+                    "Крабовые палочки и отваренные яйца нарежьте очень мелким кубиком.",
+                    "Чеснок пропустите через пресс или натрите на самой мелкой терке прямо в майонез.",
+                    "Смешайте сыр, яйца, крабовые палочки и кукурузу.",
+                    "Заправьте чесночным майонезом. Этому салату лучше настояться 20-30 минут.",
+                    "Подавайте в салатнике или разложите по песочным тарталеткам, украсив веточкой петрушки."
+                ]
+            },
+            {
+                title: "Тропический с ананасом",
+                category: "classic",
+                tag: "Экзотика",
+                image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=600&q=80",
+                desc: "Для любителей контрастов. Сладкий ананас удивительно гармонично сочетается с крабовыми палочками и легким соусом.",
+                time: "15 мин",
+                difficulty: "Легко",
+                ingredients: [
+                    {name: "Крабовые палочки", value: "250 г"},
+                    {name: "Ананасы консервированные", value: "200 г"},
+                    {name: "Сыр твердый", value: "100 г"},
+                    {name: "Яйца", value: "3 шт"},
+                    {name: "Майонез легкий", value: "2 ст. л."}
+                ],
+                steps: [
+                    "Ананасы откиньте на дуршлаг, чтобы стек весь сироп. Нарежьте кубиком.",
+                    "Крабовые палочки и отварные яйца также нарежьте кубиком.",
+                    "Сыр натрите на крупной терке.",
+                    "Соедините все ингредиенты. В этом рецепте кукуруза не используется, так как сладости ананаса достаточно.",
+                    "Заправьте небольшим количеством легкого майонеза или несладкого йогурта."
+                ]
+            },
+            {
+                title: "Свежесть с помидорами",
+                category: "diet",
+                tag: "Летний",
+                image: "https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?auto=format&fit=crop&w=600&q=80",
+                desc: "Очень сочный летний вариант без яиц и кукурузы. Максимум сока и вкуса.",
+                time: "15 мин",
+                difficulty: "Легко",
+                ingredients: [
+                    {name: "Крабовые палочки", value: "200 г"},
+                    {name: "Помидоры Черри", value: "200 г"},
+                    {name: "Сыр Фета или Брынза", value: "100 г"},
+                    {name: "Базилик свежий", value: "Несколько листьев"},
+                    {name: "Оливковое масло", value: "2 ст. л."},
+                    {name: "Лимонный сок", value: "1 ч. л."}
+                ],
+                steps: [
+                    "Помидоры черри разрежьте на половинки или четвертинки.",
+                    "Крабовые палочки нарежьте крупными кусочками (наискосок).",
+                    "Фету нарежьте аккуратным кубиком (смочите нож водой, чтобы сыр не крошился).",
+                    "Смешайте оливковое масло, лимонный сок и мелко нарубленный базилик.",
+                    "Аккуратно соедините томаты, сурими и сыр, полейте заправкой. Не мешайте слишком активно, чтобы сыр не превратился в кашу."
+                ]
+            }
+        ];
+
+        // Рендеринг карточек
+        const grid = document.getElementById('recipe-grid');
+
+        function renderRecipes(filter) {
+            grid.innerHTML = '';
+            // Добавляем класс для анимации исчезновения
+            grid.style.opacity = '0';
+            
+            setTimeout(() => {
+                const filtered = filter === 'all' 
+                    ? recipesData 
+                    : recipesData.filter(r => r.category === filter);
+
+                filtered.forEach((recipe, index) => {
+                    const card = document.createElement('div');
+                    card.className = `recipe-card ${recipe.category}`;
+                    // Задержка анимации появления для каждой карточки
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    
+                    const ingHtml = recipe.ingredients.map(i => `<li><span>${i.name}</span> <span style="font-weight:700; color:var(--text-main);">${i.value}</span></li>`).join('');
+                    const stepsHtml = recipe.steps.map((s, idx) => `
+                        <div class="step">
+                            <div class="step-num">${idx + 1}</div>
+                            <div style="font-size: 0.95rem; color: #555;">${s}</div>
+                        </div>
+                    `).join('');
+
+                    card.innerHTML = `
+                        <div class="recipe-img">
+                            <img src="${recipe.image}" alt="${recipe.title}">
+                            <div class="recipe-tag">${recipe.tag}</div>
+                        </div>
+                        <div class="recipe-content">
+                            <div class="recipe-meta">
+                                <span>⏱ ${recipe.time}</span>
+                                <span>📊 ${recipe.difficulty}</span>
+                            </div>
+                            <h3>${recipe.title}</h3>
+                            <p>${recipe.desc}</p>
+                            
+                            <h4 style="margin-top:15px; font-size:1.1rem; border-bottom:2px solid var(--accent-coral); display:inline-block; padding-bottom:5px;">Ингредиенты:</h4>
+                            <ul class="ingredients-list" style="margin-top:15px;">
+                                ${ingHtml}
+                            </ul>
+                            
+                            <h4 style="margin-top:10px; font-size:1.1rem; border-bottom:2px solid var(--accent-blue); display:inline-block; padding-bottom:5px;">Как готовить:</h4>
+                            <div class="steps-box" style="margin-top:15px;">
+                                ${stepsHtml}
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                grid.style.opacity = '1';
+                grid.style.transition = 'opacity 0.4s ease-in-out';
+            }, 300);
+        }
+
+        // Фильтрация
+        function filterSelection(c) {
+            const btns = document.querySelectorAll('.filter-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderRecipes(c);
+        }
+
+        // Калькулятор Ингредиентов (Адаптирован под крабовый)
+        function calculateIngredients(guests) {
+            document.getElementById('guest-count').innerText = guests;
+            
+            // База на 1 порцию (примерно 200г классического крабового салата)
+            const base = {
+                crab: 65,     // г
+                corn: 50,     // г
+                egg: 1,       // шт
+                cucumber: 40, // г
+                mayo: 30      // г
+            };
+
+            const resultDiv = document.getElementById('calc-result');
+            resultDiv.innerHTML = `
+                <div class="calc-item">Крабовые палочки <span>${Math.round(base.crab * guests)} г</span></div>
+                <div class="calc-item">Кукуруза <span>${Math.round(base.corn * guests)} г</span></div>
+                <div class="calc-item">Яйца <span>${Math.round(base.egg * guests)} шт</span></div>
+                <div class="calc-item">Огурец (свежий) <span>${Math.round(base.cucumber * guests)} г</span></div>
+                <div class="calc-item">Майонез <span>${Math.round(base.mayo * guests)} г</span></div>
+            `;
+        }
+
+        // Инициализация при загрузке
+        window.onload = () => {
+            renderRecipes('all');
+            calculateIngredients(4);
+        };
+    </script>
+</body>
+</html>
